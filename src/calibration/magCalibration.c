@@ -86,9 +86,7 @@ void magCalibration()
 	eepromConfig.magBias[YAXIS] = sphereOrigin[YAXIS];
 	eepromConfig.magBias[ZAXIS] = sphereOrigin[ZAXIS];
 
-    cliPrint("\nMagnetometer Calibration Complete.\n\n");
-
-	magCalibrating = false;
+    magCalibrating = false;
 }
 
 

@@ -66,6 +66,10 @@ void pwmOutputInit(drv_pwm_output_config_t * init)
     TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure = { 0, };
     TIM_OCInitTypeDef TIM_OCInitStructure = { 0, };
 
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
+
     // Outputs
     // PWM1 TIM1_CH1 PA8
     // PWM2 TIM1_CH4 PA11
@@ -75,8 +79,8 @@ void pwmOutputInit(drv_pwm_output_config_t * init)
     // PWM6 TIM4_CH4 PB9
 
     // Output pins
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_11;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_8 | GPIO_Pin_11;
+    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 
     GPIO_Init(GPIOA, &GPIO_InitStructure);
@@ -90,11 +94,11 @@ void pwmOutputInit(drv_pwm_output_config_t * init)
 
     TIM_TimeBaseStructure.TIM_Prescaler = (36 - 1);
 
-    TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;
-    TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+    TIM_OCInitStructure.TIM_OCMode       = TIM_OCMode_PWM2;
+    TIM_OCInitStructure.TIM_OutputState  = TIM_OutputState_Enable;
     TIM_OCInitStructure.TIM_OutputNState = TIM_OutputNState_Disable;
-    TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low;
-    TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Set;
+    TIM_OCInitStructure.TIM_OCPolarity   = TIM_OCPolarity_Low;
+    TIM_OCInitStructure.TIM_OCIdleState  = TIM_OCIdleState_Set;
 
     if (init->useServos == true) {
         // ch1, 2 for servo
@@ -113,7 +117,9 @@ void pwmOutputInit(drv_pwm_output_config_t * init)
         TIM_OC2Init(TIM4, &TIM_OCInitStructure);
         TIM_OC3Init(TIM4, &TIM_OCInitStructure);
         TIM_OC4Init(TIM4, &TIM_OCInitStructure);
-    } else {
+    }
+    else
+    {
         TIM_TimeBaseStructure.TIM_Period = (2000000 / init->escPwmRate) - 1;
         TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
         TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);

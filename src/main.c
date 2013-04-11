@@ -181,9 +181,9 @@ int main(void)
             if ( rfTelem2Enabled == true )
             {
             	// 200 Hz Gyros
-            	cliPrintF("%9.4f, %9.4f, %9.4f\n", sensors.gyro200Hz[ROLL ] * R2D,
-            	        			               sensors.gyro200Hz[PITCH] * R2D,
-            	        					       sensors.gyro200Hz[YAW  ] * R2D);
+            	cliPrintF("%9.4f, %9.4f, %9.4f\n", sensors.gyro200Hz[ROLL ],
+            	        			               sensors.gyro200Hz[PITCH],
+            	        					       sensors.gyro200Hz[YAW  ]);
             }
 
             if ( rfTelem3Enabled == true )
@@ -210,7 +210,7 @@ int main(void)
             if ( rfTelem6Enabled == true )
             {
             	// 200 Hz Attitudes
-            	cliPrintF("%9.4f, %9.4f, %9.4f\n", sensors.attitude200Hz[ROLL],
+            	cliPrintF("%9.4f, %9.4f, %9.4f\n", sensors.attitude200Hz[ROLL ],
             	        			               sensors.attitude200Hz[PITCH],
             	        			               sensors.attitude200Hz[YAW  ]);
             }

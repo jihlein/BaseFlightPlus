@@ -262,6 +262,9 @@ typedef struct eepromConfig_t {
     float wingRightMinimum;
     float wingRightMaximum;
 
+    uint8_t armCount;
+    uint8_t disarmCount;
+
 } eepromConfig_t;
 
 extern eepromConfig_t eepromConfig;

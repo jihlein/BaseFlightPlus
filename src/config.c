@@ -345,6 +345,9 @@ void checkFirstTime(bool eepromReset)
         eepromConfig.freeMix[5][PITCH]    =  0.0f;
         eepromConfig.freeMix[5][YAW  ]    =  0.0f;
 
+        eepromConfig.armCount             =  50;
+        eepromConfig.disarmCount          =  0;
+
         writeEEPROM();
 	}
 }

@@ -489,6 +489,9 @@ void receiverCLI()
 				tempFloat = eepromConfig.attitudeScaling * 180000.0 / PI;
                 cliPrintF("Max Attitude Command:           %6.2f Degrees\n\n", tempFloat);
 
+				cliPrintF("Arm Delay Count:                %3d Frames\n",   eepromConfig.armCount);
+				cliPrintF("Disarm Delay Count:             %3d Frames\n\n", eepromConfig.disarmCount);
+
 				validQuery = false;
 				break;
 
@@ -574,6 +577,16 @@ void receiverCLI()
 
             ///////////////////////////
 
+            case 'F': // Read Arm/Disarm Counts
+                eepromConfig.armCount    = (uint8_t)readFloatCLI();
+        	    eepromConfig.disarmCount = (uint8_t)readFloatCLI();
+
+                receiverQuery = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////////
+
             case 'W': // Write EEPROM Parameters
                 cliPrint("\nWriting EEPROM Parameters....\n\n");
                 writeEEPROM();
@@ -588,6 +601,7 @@ void receiverCLI()
 			   	cliPrint("'c' Set Maximum Attitude Command           'C' Set Spektrum Resolution              C0 or C1\n");
 			   	cliPrint("                                           'D' Set Number of Spektrum Channels      D6 thru D12\n");
 			   	cliPrint("                                           'E' Set RC Control Points                EmidCmd;minChk;maxChk;minThrot;maxThrot\n");
+			   	cliPrint("                                           'F' Set Arm/Disarm Counts                FarmCount;disarmCount\n");
 			   	cliPrint("                                           'W' Write EEPROM Parameters\n");
 			   	cliPrint("'x' Exit Receiver CLI                      '?' Command Summary\n");
 			   	cliPrint("\n");

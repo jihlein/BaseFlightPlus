@@ -242,6 +242,19 @@ void systemInit(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
 
+    // Turn on clocks for stuff we use
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOC | RCC_APB2Periph_AFIO, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1,   ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,   ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,   ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4,   ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1,   ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2,   ENABLE);
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,     ENABLE);
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA2,     ENABLE);
+    RCC_ClearFlag();
+
     // Make all GPIO in by default to save power and reduce noise
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;

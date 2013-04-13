@@ -371,8 +371,8 @@ void i2cInit(I2C_TypeDef * I2C)
     GPIO_InitTypeDef GPIO_InitStructure;
     I2C_InitTypeDef I2C_InitStructure;
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2,  ENABLE);
+    //RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+    //RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2,  ENABLE);
 
     i2cUnstick();               // clock out stuff to make sure slaves arent stuck
 

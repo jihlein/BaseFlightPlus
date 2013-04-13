@@ -66,9 +66,9 @@ void pwmOutputInit(drv_pwm_output_config_t * init)
     TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure = { 0, };
     TIM_OCInitTypeDef TIM_OCInitStructure = { 0, };
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
+    //RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE);
+    //RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
+    //RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
 
     // Outputs
     // PWM1 TIM1_CH1 PA8

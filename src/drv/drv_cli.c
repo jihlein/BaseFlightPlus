@@ -90,8 +90,9 @@ void cliInit(uint32_t baudRate)
     // USART1_TX    PA9
     // USART1_RX    PA10
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,  ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
+    //RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,     ENABLE);
+    //RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,  ENABLE);
+    //RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_9;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;

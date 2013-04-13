@@ -35,10 +35,6 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
-#define NAZE32_REV1  // Green or Blue Board, ADXL345, BMP085, HMC5883L, MPU3050
-
-///////////////////////////////////////////////////////////////////////////////
-
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -68,12 +64,10 @@
 #include "drv_rx.h"
 #include "drv_system.h"
 
-#ifdef NAZE32_REV1
-    #include "adxl345.h"
-    #include "bmp085.h"
-    #include "hmc5883.h"
-    #include "mpu3050.h"
-#endif
+#include "adxl345.h"
+#include "bmp085.h"
+#include "hmc5883.h"
+#include "mpu3050.h"
 
 #include "accelCalibration.h"
 #include "cli.h"

@@ -217,29 +217,17 @@ void cliCom(void)
 
         ///////////////////////////////
 
-        case 'c': // Velocity PIDs
-            cliPrintF("\nhDot PID:  %8.4f, %8.4f, %8.4f, %8.4f, %8.4f, %s\n", eepromConfig.PID[HDOT_PID].B,
-               		                                                          eepromConfig.PID[HDOT_PID].P,
-               		                                                          eepromConfig.PID[HDOT_PID].I,
-               		                                                          eepromConfig.PID[HDOT_PID].D,
-               		                                                          eepromConfig.PID[HDOT_PID].windupGuard,
-               		                                                          eepromConfig.PID[HDOT_PID].dErrorCalc ? "Error" : "State");
+        case 'c': // Not Used
             cliQuery = 'x';
             validCliCommand = false;
             break;
 
         ///////////////////////////////
 
-        case 'd': // Position PIDs
-            cliPrintF("\nh PID:  %8.4f, %8.4f, %8.4f, %8.4f, %8.4f, %s\n", eepromConfig.PID[H_PID].B,
-               		                                                       eepromConfig.PID[H_PID].P,
-               		                                                       eepromConfig.PID[H_PID].I,
-               		                                                       eepromConfig.PID[H_PID].D,
-               		                                                       eepromConfig.PID[H_PID].windupGuard,
-               		                                                       eepromConfig.PID[H_PID].dErrorCalc ? "Error" : "State");
+        case 'd': // Not Used
             cliQuery = 'x';
             validCliCommand = false;
-          	break;
+            break;
 
         ///////////////////////////////
 
@@ -278,12 +266,10 @@ void cliCom(void)
 
         ///////////////////////////////
 
-        case 'h': // 100 hz Earth Axis Accels
-        	cliPrintF("%9.4f, %9.4f, %9.4f\n", earthAxisAccels[XAXIS],
-        			                           earthAxisAccels[YAXIS],
-        			                           earthAxisAccels[ZAXIS]);
-        	validCliCommand = false;
-        	break;
+        case 'h': // Not Used
+            cliQuery = 'x';
+            validCliCommand = false;
+            break;
 
         ///////////////////////////////
 
@@ -291,28 +277,23 @@ void cliCom(void)
         	cliPrintF("%9.4f, %9.4f, %9.4f, %9.4f\n", sensors.gyro200Hz[ROLL ] * R2D,
         			                                  sensors.gyro200Hz[PITCH] * R2D,
         					                          sensors.gyro200Hz[YAW  ] * R2D,
-        					                          gyroTemperature);
+        					                          mpu6050Temperature);
         	validCliCommand = false;
         	break;
 
         ///////////////////////////////
 
-        case 'j': // 10 Hz Mag Data
-        	cliPrintF("%9.4f, %9.4f, %9.4f\n", sensors.mag10Hz[XAXIS],
-        			                           sensors.mag10Hz[YAXIS],
-        			                           sensors.mag10Hz[ZAXIS]);
-        	validCliCommand = false;
-        	break;
+        case 'j': // Not Used
+            cliQuery = 'x';
+            validCliCommand = false;
+            break;
 
         ///////////////////////////////
 
-        case 'k': // Vertical Axis Variables
-        	cliPrintF("%9.4f, %9.4f, %9.4f, %9.4f\n", earthAxisAccels[ZAXIS],
-        			                                  sensors.pressureAlt10Hz,
-        					                          hDotEstimate,
-        					                          hEstimate);
-        	validCliCommand = false;
-        	break;
+        case 'k': // Not Used
+            cliQuery = 'x';
+            validCliCommand = false;
+            break;
 
         ///////////////////////////////
 
@@ -370,13 +351,6 @@ void cliCom(void)
         	    cliPrint("Heading Hold = ENGAGED     ");
         	else
         	    cliPrint("Heading Hold = DISENGAGED  ");
-
-        	if (altitudeHoldState == DISENGAGED)
-        		cliPrint("Altitude Hold = DISENAGED\n");
-            else if (altitudeHoldState == ENGAGED)
-            	cliPrint("Altitude Hold = ENGAGED\n");
-            else if (altitudeHoldState == PANIC)
-            	cliPrint("Altitude Hold = PANIC\n");
 
         	validCliCommand = false;
         	break;
@@ -632,13 +606,10 @@ void cliCom(void)
 
         ///////////////////////////////
 
-        case 'I': // Read hDot PID Values
-            readCliPID(HDOT_PID);
-            cliPrint( "\nhDot PID Received....\n" );
-
-          	cliQuery = 'c';
-          	validCliCommand = false;
-          	break;
+        case 'I': // Not Used
+            cliQuery = 'x';
+            validCliCommand = false;
+            break;
 
        	///////////////////////////////
 
@@ -654,13 +625,10 @@ void cliCom(void)
 
         ///////////////////////////////
 
-        case 'L': // Read h PID Values
-            readCliPID(H_PID);
-            cliPrint( "\nh PID Received....\n" );
-
-            cliQuery = 'd';
-        	validCliCommand = false;
-        	break;
+        case 'L': // Not Used
+            cliQuery = 'x';
+            validCliCommand = false;
+            break;
 
         ///////////////////////////////
 
@@ -779,16 +747,16 @@ void cliCom(void)
         	cliPrint("\n");
    		    cliPrint("'a' Rate PIDs                              'A' Set Roll Rate PID Data   AB;P;I;D;windupGuard;dErrorCalc\n");
    		    cliPrint("'b' Attitude PIDs                          'B' Set Pitch Rate PID Data  BB;P;I;D;windupGuard;dErrorCalc\n");
-   		    cliPrint("'c' Velocity PIDs                          'C' Set Yaw Rate PID Data    CB;P;I;D;windupGuard;dErrorCalc\n");
-   		    cliPrint("'d' Position PIDs                          'D' Set Roll Att PID Data    DB;P;I;D;windupGuard;dErrorCalc\n");
+   		    cliPrint("'c' Not USed                               'C' Set Yaw Rate PID Data    CB;P;I;D;windupGuard;dErrorCalc\n");
+   		    cliPrint("'d' Not Used                               'D' Set Roll Att PID Data    DB;P;I;D;windupGuard;dErrorCalc\n");
    		    cliPrint("'e' Loop Delta Times                       'E' Set Pitch Att PID Data   EB;P;I;D;windupGuard;dErrorCalc\n");
    		    cliPrint("'f' Loop Execution Times                   'F' Set Hdg Hold PID Data    FB;P;I;D;windupGuard;dErrorCalc\n");
-   		    cliPrint("'g' 500 Hz Accels                          'G' Not Used\n");
-   		    cliPrint("'h' 100 Hz Earth Axis Accels               'H' Not Used\n");
-   		    cliPrint("'i' 500 Hz Gyros                           'I' Set hDot PID Data        IB;P;I;D;windupGuard;dErrorCalc\n");
-   		    cliPrint("'j' 10 hz Mag Data                         'J' Not Used\n");
-   		    cliPrint("'k' Vertical Axis Variable                 'K' Not Used\n");
-   		    cliPrint("'l' Attitudes                              'L' Set h PID Data           LB;P;I;D;windupGuard;dErrorCalc\n");
+   		    cliPrint("'g' 200 Hz Accels                          'G' Not Used\n");
+   		    cliPrint("'h' Not Used                               'H' Not Used\n");
+   		    cliPrint("'i' 200 Hz Gyros                           'I' Not Used\n");
+   		    cliPrint("'j' Not Used                               'J' Not Used\n");
+   		    cliPrint("'k' Not Used                               'K' Not Used\n");
+   		    cliPrint("'l' Attitudes                              'L' Not USed\n");
    		    cliPrint("\n");
 
    		    cliPrint("Press space bar for more, or enter a command....\n");

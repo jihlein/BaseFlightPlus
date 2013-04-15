@@ -86,12 +86,8 @@ typedef union {
 
 typedef struct sensors_t {
     float accel200Hz[3];
-    float accel100Hz[3];
     float attitude200Hz[3];
     float gyro200Hz[3];
-    float mag10Hz[3];
-    float pressureAlt10Hz;
-
 } sensors_t;
 
 extern sensors_t sensors;
@@ -100,7 +96,7 @@ extern sensors_t sensors;
 // PID Definitions
 ///////////////////////////////////////////////////////////////////////////////
 
-#define NUMBER_OF_PIDS 8
+#define NUMBER_OF_PIDS 6
 
 #define ROLL_RATE_PID  0
 #define PITCH_RATE_PID 1
@@ -109,10 +105,6 @@ extern sensors_t sensors;
 #define ROLL_ATT_PID   3
 #define PITCH_ATT_PID  4
 #define HEADING_PID    5
-
-#define HDOT_PID       6
-
-#define H_PID          7
 
 ///////////////////////////////////////////////////////////////////////////////
 // Mixer Configurations
@@ -155,16 +147,16 @@ enum { NA_MIXER,                  //  0
 enum { RATE, ATTITUDE };
 
 ///////////////////////////////////////////////////////////////////////////////
-// Altitude Hold States
-///////////////////////////////////////////////////////////////////////////////
-
-enum { DISENGAGED, ENGAGED, PANIC };
-
-///////////////////////////////////////////////////////////////////////////////
 // Receiver Configurations
 ///////////////////////////////////////////////////////////////////////////////
 
 enum { NA_RECEIVER, PARALLEL_PWM, SERIAL_PWM, SPEKTRUM };
+
+///////////////////////////////////////////////////////////////////////////////
+// MPU6050 DLPF Configurations
+///////////////////////////////////////////////////////////////////////////////
+
+enum { DLPF_256HZ, DLPF_188HZ, DLPF_98HZ, DLPF_42HZ };
 
 ///////////////////////////////////////////////////////////////////////////////
 // EEPROM
@@ -173,13 +165,11 @@ enum { NA_RECEIVER, PARALLEL_PWM, SERIAL_PWM, SPEKTRUM };
 typedef struct eepromConfig_t {
     uint8_t version;
 
-    float accelBias[3];
-    float accelScaleFactor[3];
+    float accelTCBiasSlope[3];
+    float accelTCBiasIntercept[3];
 
     float gyroTCBiasSlope[3];
     float gyroTCBiasIntercept[3];
-
-    float magBias[3];
 
     float accelCutoff;
 
@@ -191,17 +181,13 @@ typedef struct eepromConfig_t {
 
     float KiMag;
 
-    float compFilterA;
-
-    float compFilterB;
+    uint8_t dlpfSetting;
 
     ///////////////////////////////////
 
     float rateScaling;
 
     float attitudeScaling;
-
-    float hDotScaling;
 
     ///////////////////////////////////
 

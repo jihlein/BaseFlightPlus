@@ -59,15 +59,6 @@ uint8_t armingTimer    = 0;
 uint8_t disarmingTimer = 0;
 
 ///////////////////////////////////////////////////////////////////////////////
-// Altitude Hold State Variables
-///////////////////////////////////////////////////////////////////////////////
-
-uint8_t  altitudeHoldState = DISENGAGED;
-uint16_t previousAUX2State = MINCOMMAND;
-
-float    altitudeHoldThrottleValue = 0.0f;
-
-///////////////////////////////////////////////////////////////////////////////
 // Read Flight Commands
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -146,8 +137,7 @@ void processFlightCommands(void)
 		     (rxCommand[ROLL ] > (eepromConfig.maxCheck - MIDCOMMAND)) &&
 		     (rxCommand[PITCH] < (eepromConfig.minCheck - MIDCOMMAND)) )
 		{
-			computeAccelRTData();
-			computeGyroRTBias();
+			computeMPU6050RTData();
 			pulseMotors(3);
 		}
 
@@ -212,23 +202,6 @@ void processFlightCommands(void)
 	    headingHoldEngaged = true;
 	else
 	    headingHoldEngaged = false;
-
-	///////////////////////////////////
-
-	// Check AUX2 for altitude hold mode (2 Position Switch)
-
-	if ((rxCommand[AUX2] > MIDCOMMAND) && (previousAUX2State <= MIDCOMMAND))      // Rising edge detection
-	{
-		altitudeHoldState = ENGAGED;
-		altitudeHoldThrottleValue = rxCommand[THROTTLE];
-	}
-	else if ((rxCommand[AUX2] <= MIDCOMMAND) && (previousAUX2State > MIDCOMMAND)) // Falling edge detection
-	{
-		altitudeHoldState = DISENGAGED;
-	}
-
-	previousAUX2State = rxCommand[AUX2];
-
 
 	///////////////////////////////////
 }

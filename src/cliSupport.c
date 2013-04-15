@@ -620,6 +620,7 @@ void receiverCLI()
 void sensorCLI()
 {
     uint8_t  sensorQuery;
+    uint8_t  tempInt;
     uint8_t  validQuery = false;
 
     cliBusy = true;
@@ -642,37 +643,48 @@ void sensorCLI()
             ///////////////////////////
 
             case 'a': // Sensor Data
-                cliPrintF("\nAccel Scale Factor:        %9.4f, %9.4f, %9.4f\n", eepromConfig.accelScaleFactor[XAXIS],
-                                                		                        eepromConfig.accelScaleFactor[YAXIS],
-                                                		                        eepromConfig.accelScaleFactor[ZAXIS]);
-                cliPrintF("Accel Bias:                %9.4f, %9.4f, %9.4f\n",   eepromConfig.accelBias[XAXIS],
-                                                		                        eepromConfig.accelBias[YAXIS],
-                                                		                        eepromConfig.accelBias[ZAXIS]);
+                cliPrintF("\nAccel Temp Comp Slope:     %9.4f, %9.4f, %9.4f\n", eepromConfig.accelTCBiasSlope[XAXIS],
+                                                		                        eepromConfig.accelTCBiasSlope[YAXIS],
+                                                		                        eepromConfig.accelTCBiasSlope[ZAXIS]);
+                cliPrintF("Accel Temp Comp Bias:      %9.4f, %9.4f, %9.4f\n",   eepromConfig.accelTCBiasIntercept[XAXIS],
+                                                		                        eepromConfig.accelTCBiasIntercept[YAXIS],
+                                                		                        eepromConfig.accelTCBiasIntercept[ZAXIS]);
                 cliPrintF("Gyro TC Bias Slope:        %9.4f, %9.4f, %9.4f\n",   eepromConfig.gyroTCBiasSlope[ROLL ],
                                                                 		        eepromConfig.gyroTCBiasSlope[PITCH],
                                                                 		        eepromConfig.gyroTCBiasSlope[YAW  ]);
                 cliPrintF("Gyro TC Bias Intercept:    %9.4f, %9.4f, %9.4f\n",   eepromConfig.gyroTCBiasIntercept[ROLL ],
                 		                                                        eepromConfig.gyroTCBiasIntercept[PITCH],
                 		                                                        eepromConfig.gyroTCBiasIntercept[YAW  ]);
-                cliPrintF("Mag Bias:                  %9.4f, %9.4f, %9.4f\n",   eepromConfig.magBias[XAXIS],
-                                                		                        eepromConfig.magBias[YAXIS],
-                                                		                        eepromConfig.magBias[ZAXIS]);
                 cliPrintF("Accel One G:               %9.4f\n",   accelOneG);
                 cliPrintF("Accel Cutoff:              %9.4f\n",   eepromConfig.accelCutoff);
                 cliPrintF("KpAcc (MARG):              %9.4f\n",   eepromConfig.KpAcc);
                 cliPrintF("KiAcc (MARG):              %9.4f\n",   eepromConfig.KiAcc);
                 cliPrintF("KpMag (MARG):              %9.4f\n",   eepromConfig.KpMag);
                 cliPrintF("KiMag (MARG):              %9.4f\n",   eepromConfig.KiMag);
-                cliPrintF("hdot est/h est Comp Fil A: %9.4f\n",   eepromConfig.compFilterA);
-                cliPrintF("hdot est/h est Comp Fil B: %9.4f\n\n", eepromConfig.compFilterB);
 
+                cliPrint("MPU6050 DLPF:                 ");
+                switch(eepromConfig.dlpfSetting)
+                {
+                    case DLPF_256HZ:
+                        cliPrint("256 Hz\n");
+                        break;
+                    case DLPF_188HZ:
+                        cliPrint("188 Hz\n");
+                        break;
+                    case DLPF_98HZ:
+                        cliPrint("98 Hz\n");
+                        break;
+                    case DLPF_42HZ:
+                        cliPrint("42 Hz\n");
+                        break;
+                }
                 validQuery = false;
                 break;
 
             ///////////////////////////
 
-            case 'b': // Accel Calibration
-                accelCalibration();
+            case 'b': // MPU6050 Calibration
+                mpu6050Calibration();
 
                 sensorQuery = 'a';
                 validQuery = true;
@@ -680,11 +692,9 @@ void sensorCLI()
 
             ///////////////////////////
 
-            case 'c': // Magnetometer Calibration
-                magCalibration();
-
-                sensorQuery = 'a';
-                validQuery = true;
+            case 'c': // Not Used
+                sensorQuery = 'x';
+                validQuery = false;
                 break;
 
 			///////////////////////////
@@ -697,7 +707,37 @@ void sensorCLI()
 
             ///////////////////////////
 
-            case 'B': // Accel Cutoff
+			case 'A': // Set MPU6000 Digital Low Pass Filter
+			    tempInt = (uint8_t)readFloatCLI();
+
+			    switch(tempInt)
+			    {
+			        case DLPF_256HZ:
+			            eepromConfig.dlpfSetting = BITS_DLPF_CFG_256HZ;
+			            break;
+
+			        case DLPF_188HZ:
+			           	eepromConfig.dlpfSetting = BITS_DLPF_CFG_188HZ;
+			           	break;
+
+			        case DLPF_98HZ:
+			          	eepromConfig.dlpfSetting = BITS_DLPF_CFG_98HZ;
+			           	break;
+
+			        case DLPF_42HZ:
+			           	eepromConfig.dlpfSetting = BITS_DLPF_CFG_42HZ;
+			           	break;
+			    }
+
+			    i2cWrite(MPU6050_ADDRESS, MPU6050_CONFIG, eepromConfig.dlpfSetting);
+
+			    sensorQuery = 'a';
+			    validQuery = true;
+			    break;
+
+			///////////////////////////
+
+			case 'B': // Accel Cutoff
                 eepromConfig.accelCutoff = readFloatCLI();
 
                 sensorQuery = 'a';
@@ -726,12 +766,9 @@ void sensorCLI()
 
             ///////////////////////////
 
-            case 'E': // h dot est/h est Comp Filter A/B
-                eepromConfig.compFilterA = readFloatCLI();
-                eepromConfig.compFilterB = readFloatCLI();
-
-                sensorQuery = 'a';
-                validQuery = true;
+            case 'E': // Not Used
+                sensorQuery = 'x';
+                validQuery = false;
                 break;
 
             ///////////////////////////
@@ -745,11 +782,10 @@ void sensorCLI()
 
 			case '?':
 			   	cliPrint("\n");
-			   	cliPrint("'a' Display Sensor Data\n");
-			   	cliPrint("'b' Accel Calibration                      'B' Set Accel Cutoff                     BAccelCutoff\n");
-			   	cliPrint("'c' Magnetometer Calibration               'C' Set kpAcc/kiAcc                      CKpAcc;KiAcc\n");
+			   	cliPrint("'a' Display Sensor Data                    'A' Set MPU6050 DLPF                     A0 thru 3, see BaseFlightPlus.h\n");
+			   	cliPrint("'b' MPU6050 Calibration                    'B' Set Accel Cutoff                     BAccelCutoff\n");
+			   	cliPrint("'c' Not Used                               'C' Set kpAcc/kiAcc                      CKpAcc;KiAcc\n");
 			   	cliPrint("                                           'D' Set kpMag/kiMag                      DKpMag;KiMag\n");
-			   	cliPrint("                                           'E' Set h dot est/h est Comp Filter A/B  EA;B\n");
 			   	cliPrint("                                           'W' Write EEPROM Parameters\n");
 			   	cliPrint("'x' Exit Sensor CLI                        '?' Command Summary\n");
 			    cliPrint("\n");

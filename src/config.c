@@ -44,7 +44,7 @@ const char rcChannelLetters[] = "AERT1234";
 
 float vTailThrust;
 
-static uint8_t checkNewEEPROMConf = 1;
+static uint8_t checkNewEEPROMConf = 2;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -116,15 +116,15 @@ void checkFirstTime(bool eepromReset)
 
 	    ///////////////////////////////
 
-        eepromConfig.accelBias[XAXIS] = 0.0f;
-        eepromConfig.accelBias[YAXIS] = 0.0f;
-        eepromConfig.accelBias[ZAXIS] = 0.0f;
+        eepromConfig.accelTCBiasSlope[XAXIS] = 0.0f;
+        eepromConfig.accelTCBiasSlope[YAXIS] = 0.0f;
+        eepromConfig.accelTCBiasSlope[ZAXIS] = 0.0f;
 
         ///////////////////////////////
 
-        eepromConfig.accelScaleFactor[XAXIS] = 9.8065f / 256.0f;
-        eepromConfig.accelScaleFactor[YAXIS] = 9.8065f / 256.0f;
-        eepromConfig.accelScaleFactor[ZAXIS] = 9.8065f / 256.0f;
+        eepromConfig.accelTCBiasIntercept[XAXIS] = 0.0f;
+        eepromConfig.accelTCBiasIntercept[YAXIS] = 0.0f;
+        eepromConfig.accelTCBiasIntercept[ZAXIS] = 0.0f;
 
         ///////////////////////////////
 
@@ -140,13 +140,7 @@ void checkFirstTime(bool eepromReset)
 
 	    ///////////////////////////////
 
-	    eepromConfig.magBias[XAXIS] = 0.0f;
-	    eepromConfig.magBias[YAXIS] = 0.0f;
-	    eepromConfig.magBias[ZAXIS] = 0.0f;
-
-		///////////////////////////////
-
-		eepromConfig.accelCutoff = 1.0f;
+	    eepromConfig.accelCutoff = 1.0f;
 
 		///////////////////////////////
 
@@ -157,16 +151,13 @@ void checkFirstTime(bool eepromReset)
 
 	    ///////////////////////////////
 
-	    eepromConfig.compFilterA =  0.005f;
-	    eepromConfig.compFilterB =  0.005f;
+	    eepromConfig.dlpfSetting = BITS_DLPF_CFG_98HZ;
 
-	    ///////////////////////////////
+	    ///////////////////////////////////
 
 	    eepromConfig.rateScaling     = 300.0 / 180000.0 * PI;  // Stick to rate scaling for 300 DPS
 
 	    eepromConfig.attitudeScaling = 60.0  / 180000.0 * PI;  // Stick to att scaling for 60 degrees
-
-	    eepromConfig.hDotScaling     = 0.003f;      // Stick to hDot scaling (3 mps)/(1000 RX PWM Steps) = 0.003
 
 	    ///////////////////////////////
 
@@ -259,30 +250,6 @@ void checkFirstTime(bool eepromReset)
         eepromConfig.PID[HEADING_PID].lastLastDterm     =   0.0f;
         eepromConfig.PID[HEADING_PID].dErrorCalc        =   D_ERROR;
         eepromConfig.PID[HEADING_PID].type              =   ANGULAR;
-
-        eepromConfig.PID[HDOT_PID].B                    =   1.0f;
-        eepromConfig.PID[HDOT_PID].P                    =   2.0f;
-        eepromConfig.PID[HDOT_PID].I                    =   0.0f;
-        eepromConfig.PID[HDOT_PID].D                    =   0.0f;
-        eepromConfig.PID[HDOT_PID].iTerm                =   0.0f;
-        eepromConfig.PID[HDOT_PID].windupGuard          =   5.0f;
-        eepromConfig.PID[HDOT_PID].lastDcalcValue       =   0.0f;
-        eepromConfig.PID[HDOT_PID].lastDterm            =   0.0f;
-        eepromConfig.PID[HDOT_PID].lastLastDterm        =   0.0f;
-        eepromConfig.PID[HDOT_PID].dErrorCalc           =   D_ERROR;
-        eepromConfig.PID[HDOT_PID].type                 =   OTHER;
-
-        eepromConfig.PID[H_PID].B                       =   1.0f;
-        eepromConfig.PID[H_PID].P                       =   2.0f;
-        eepromConfig.PID[H_PID].I                       =   0.0f;
-        eepromConfig.PID[H_PID].D                       =   0.0f;
-        eepromConfig.PID[H_PID].iTerm                   =   0.0f;
-        eepromConfig.PID[H_PID].windupGuard             =   5.0f;
-        eepromConfig.PID[H_PID].lastDcalcValue          =   0.0f;
-        eepromConfig.PID[H_PID].lastDterm               =   0.0f;
-        eepromConfig.PID[H_PID].lastLastDterm           =   0.0f;
-        eepromConfig.PID[H_PID].dErrorCalc              =   D_ERROR;
-        eepromConfig.PID[H_PID].type                    =   OTHER;
 
         eepromConfig.gimbalRollServoMin   = 2000.0f;
 		eepromConfig.gimbalRollServoMid   = 3000.0f;

@@ -105,12 +105,10 @@ void SysTick_Handler(void)
     sysTickCycleCounter = *DWT_CYCCNT;
     sysTickUptime++;
 
-    if ((systemReady      == true ) &&
-    	(cliBusy          == false) &&
-    	(accelCalibrating == false) &&
-    	(escCalibrating   == false) &&
-    	(gyroCalibrating  == false) &&
-    	(magCalibrating   == false))
+    if ((systemReady        == true ) &&
+    	(cliBusy            == false) &&
+    	(mpu6050Calibrating == false) &&
+    	(escCalibrating     == false))
 
     {
         frameCounter++;
@@ -123,17 +121,11 @@ void SysTick_Handler(void)
         deltaTime1000Hz = currentTime - previous1000HzTime;
         previous1000HzTime = currentTime;
 
-        readAccel();
+        readMPU6050();
 
         accelSum200Hz[XAXIS] += rawAccel[XAXIS].value;
         accelSum200Hz[YAXIS] += rawAccel[YAXIS].value;
         accelSum200Hz[ZAXIS] += rawAccel[ZAXIS].value;
-
-        accelSum100Hz[XAXIS] += rawAccel[XAXIS].value;
-        accelSum100Hz[YAXIS] += rawAccel[YAXIS].value;
-        accelSum100Hz[ZAXIS] += rawAccel[ZAXIS].value;
-
-        readGyro();
 
         gyroSum200Hz[ROLL ] += rawGyro[ROLL ].value;
         gyroSum200Hz[PITCH] += rawGyro[PITCH].value;
@@ -160,21 +152,6 @@ void SysTick_Handler(void)
         if ((frameCounter % COUNT_100HZ) == 0)
         {
             frame_100Hz = true;
-
-            for (index = 0; index < 3; index++)
-            {
-                accelSummedSamples100Hz[index] = accelSum100Hz[index];
-                accelSum100Hz[index] = 0.0f;
-            }
-
-            if (frameCounter == COUNT_100HZ)
-                readTemperatureRequestPressure();
-            else if (frameCounter == FRAME_COUNT)
-                readPressureRequestTemperature();
-            else
-                readPressureRequestPressure();
-
-            pressureSum += uncompensatedPressure.value;
         }
 
         ///////////////////////////////
@@ -185,9 +162,6 @@ void SysTick_Handler(void)
         }
 
         ///////////////////////////////
-
-        if (((frameCounter + 1) % COUNT_10HZ) == 0)
-            newMagData = readMag();
 
         if ((frameCounter % COUNT_10HZ) == 0)
             frame_10Hz = true;
@@ -294,10 +268,7 @@ void systemInit(void)
 
     LED1_ON;
 
-    initAccel();
-    initGyro();
-    initMag();
-    initPressure();
+    initMPU6050();
 
     initPID();
 }

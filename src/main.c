@@ -76,20 +76,7 @@ int main(void)
 			deltaTime10Hz    = currentTime - previous10HzTime;
 			previous10HzTime = currentTime;
 
-			sensors.mag10Hz[XAXIS] = -((float)rawMag[XAXIS].value * magScaleFactor[XAXIS] - eepromConfig.magBias[XAXIS]);
-			sensors.mag10Hz[YAXIS] =   (float)rawMag[YAXIS].value * magScaleFactor[YAXIS] - eepromConfig.magBias[YAXIS];
-			sensors.mag10Hz[ZAXIS] = -((float)rawMag[ZAXIS].value * magScaleFactor[ZAXIS] - eepromConfig.magBias[ZAXIS]);
-
-			newMagData = false;
-			magDataUpdate = true;
-
-        	pressureAverage = pressureSum / 10;
-        	pressureSum = 0;
-        	calculateTemperature();
-        	calculatePressureAltitude();
-        	sensors.pressureAlt10Hz = pressureAlt;
-
-        	cliCom();
+			cliCom();
 
         	executionTime10Hz = micros() - currentTime;
         }
@@ -106,27 +93,26 @@ int main(void)
 
        	    dt200Hz = (float)deltaTime200Hz * 0.000001f;  // For integrations in 200 Hz loop
 
-            sensors.accel200Hz[XAXIS] = -((float)accelSummedSamples200Hz[XAXIS] / 5.0f - accelRTBias[XAXIS] - eepromConfig.accelBias[XAXIS]) * eepromConfig.accelScaleFactor[XAXIS];
-			sensors.accel200Hz[YAXIS] = -((float)accelSummedSamples200Hz[YAXIS] / 5.0f - accelRTBias[YAXIS] - eepromConfig.accelBias[YAXIS]) * eepromConfig.accelScaleFactor[YAXIS];
-			sensors.accel200Hz[ZAXIS] = -((float)accelSummedSamples200Hz[ZAXIS] / 5.0f - accelRTBias[ZAXIS] - eepromConfig.accelBias[ZAXIS]) * eepromConfig.accelScaleFactor[ZAXIS];
+       	    computeMPU6050TCBias();
+
+       	    sensors.accel200Hz[XAXIS] =  ((float)accelSummedSamples200Hz[XAXIS] / 5.0f - accelTCBias[XAXIS]) * ACCEL_SCALE_FACTOR;
+			sensors.accel200Hz[YAXIS] = -((float)accelSummedSamples200Hz[YAXIS] / 5.0f - accelTCBias[YAXIS]) * ACCEL_SCALE_FACTOR;
+			sensors.accel200Hz[ZAXIS] = -((float)accelSummedSamples200Hz[ZAXIS] / 5.0f - accelTCBias[ZAXIS]) * ACCEL_SCALE_FACTOR;
 
             sensors.accel200Hz[XAXIS] = computeFourthOrder200Hz(sensors.accel200Hz[XAXIS], &fourthOrder200Hz[AX_FILTER]);
             sensors.accel200Hz[YAXIS] = computeFourthOrder200Hz(sensors.accel200Hz[YAXIS], &fourthOrder200Hz[AY_FILTER]);
             sensors.accel200Hz[ZAXIS] = computeFourthOrder200Hz(sensors.accel200Hz[ZAXIS], &fourthOrder200Hz[AZ_FILTER]);
 
-            computeGyroTCBias();
             sensors.gyro200Hz[ROLL ] =  ((float)gyroSummedSamples200Hz[ROLL]  / 5.0f - gyroRTBias[ROLL ] - gyroTCBias[ROLL ]) * GYRO_SCALE_FACTOR;
 			sensors.gyro200Hz[PITCH] = -((float)gyroSummedSamples200Hz[PITCH] / 5.0f - gyroRTBias[PITCH] - gyroTCBias[PITCH]) * GYRO_SCALE_FACTOR;
             sensors.gyro200Hz[YAW  ] = -((float)gyroSummedSamples200Hz[YAW]   / 5.0f - gyroRTBias[YAW  ] - gyroTCBias[YAW  ]) * GYRO_SCALE_FACTOR;
 
             MargAHRSupdate( sensors.gyro200Hz[ROLL],   sensors.gyro200Hz[PITCH],  sensors.gyro200Hz[YAW],
                             sensors.accel200Hz[XAXIS], sensors.accel200Hz[YAXIS], sensors.accel200Hz[ZAXIS],
-                            sensors.mag10Hz[XAXIS],    sensors.mag10Hz[YAXIS],    sensors.mag10Hz[ZAXIS],
+                            0.0f,                      0.0f,                      0.0f,
                             eepromConfig.accelCutoff,
-                            magDataUpdate,
+                            false,
                             dt200Hz );
-
-            magDataUpdate = false;
 
             computeAxisCommands(dt200Hz);
             mixTable();
@@ -147,28 +133,6 @@ int main(void)
 			previous100HzTime = currentTime;
 
 			dt100Hz = (float)deltaTime100Hz * 0.000001f;  // For integrations in 100 Hz loop
-
-            sensors.accel100Hz[XAXIS] = -((float)accelSummedSamples100Hz[XAXIS] / 10.0f - accelRTBias[XAXIS] - eepromConfig.accelBias[XAXIS]) * eepromConfig.accelScaleFactor[XAXIS];
-			sensors.accel100Hz[YAXIS] = -((float)accelSummedSamples100Hz[YAXIS] / 10.0f - accelRTBias[YAXIS] - eepromConfig.accelBias[YAXIS]) * eepromConfig.accelScaleFactor[YAXIS];
-			sensors.accel100Hz[ZAXIS] = -((float)accelSummedSamples100Hz[ZAXIS] / 10.0f - accelRTBias[ZAXIS] - eepromConfig.accelBias[ZAXIS]) * eepromConfig.accelScaleFactor[ZAXIS];
-
-        	sensors.accel100Hz[XAXIS] = computeFourthOrder100Hz(sensors.accel100Hz[XAXIS], &fourthOrder100Hz[AX_FILTER]);
-            sensors.accel100Hz[YAXIS] = computeFourthOrder100Hz(sensors.accel100Hz[YAXIS], &fourthOrder100Hz[AY_FILTER]);
-            sensors.accel100Hz[ZAXIS] = computeFourthOrder100Hz(sensors.accel100Hz[ZAXIS], &fourthOrder100Hz[AZ_FILTER]);
-
-            //computeGyroTCBias();
-            //sensors.gyro100Hz[ROLL ] =  ((float)gyroSummedSamples100Hz[ROLL]  / 10.0f - gyroRTBias[ROLL ] - gyroTCBias[ROLL ]) * GYRO_SCALE_FACTOR;
-			//sensors.gyro100Hz[PITCH] = -((float)gyroSummedSamples100Hz[PITCH] / 10.0f - gyroRTBias[PITCH] - gyroTCBias[PITCH]) * GYRO_SCALE_FACTOR;
-            //sensors.gyro100Hz[YAW  ] = -((float)gyroSummedSamples100Hz[YAW]   / 10.0f - gyroRTBias[YAW  ] - gyroTCBias[YAW  ]) * GYRO_SCALE_FACTOR;
-
-            createRotationMatrix();
-            bodyAccelToEarthAccel();
-            vertCompFilter(dt100Hz);
-
-            //computeAxisCommands(dt100Hz);
-            //mixTable();
-            //writeServos();
-            //writeMotors();
 
             if ( rfTelem1Enabled == true )
             {
@@ -228,6 +192,9 @@ int main(void)
 			deltaTime5Hz    = currentTime - previous5HzTime;
 			previous5HzTime = currentTime;
 
+        	if (execUp == true)
+        	    LED0_TOGGLE;
+
         	executionTime5Hz = micros() - currentTime;
         }
 
@@ -241,14 +208,15 @@ int main(void)
 			deltaTime1Hz    = currentTime - previous1HzTime;
 			previous1HzTime = currentTime;
 
-			if (execUp == false)
+			if (execUp == true)
+				LED1_TOGGLE;
+
+            if (execUp == false)
 			    execUpCount++;
 
 			if ((execUpCount == 5) && (execUp == false))
 			{
 				execUp = true;
-				LED0_OFF;
-				LED1_OFF;
 			}
 
 			executionTime1Hz = micros() - currentTime;

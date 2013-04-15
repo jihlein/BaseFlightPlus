@@ -29,15 +29,43 @@
   along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+///////////////////////////////////////////////////////////////////////////////
+
 #pragma once
 
 ///////////////////////////////////////////////////////////////////////////////
-// MPU3050 Variables
+
+#define MPU6050_CONFIG		    	0x1A
+
+// Address
+
+#define MPU6050_ADDRESS 0x68
+
+///////////////////////////////////////
+
+#define BITS_DLPF_CFG_256HZ         0x00
+#define BITS_DLPF_CFG_188HZ         0x01
+#define BITS_DLPF_CFG_98HZ          0x02
+#define BITS_DLPF_CFG_42HZ          0x03
+
+#define ACCEL_SCALE_FACTOR 0.00119708f  // (1/8192) * 9.8065  (8192 LSB = 1 G)
+#define GYRO_SCALE_FACTOR  0.00053211f  // (1/32.8) * pi/180  (32.8 LSB = 1 DPS)
+
+///////////////////////////////////////////////////////////////////////////////
+// MPU6050 Variables
 ///////////////////////////////////////////////////////////////////////////////
 
-#define GYRO_SCALE_FACTOR     0.00121414f       //  MPU3050 14.375 LSBs per dps
+extern float   accelOneG;
 
-extern uint8_t gyroCalibrating;
+extern float   accelTCBias[3];
+
+extern int32_t accelSum200Hz[3];
+
+extern int32_t accelSummedSamples200Hz[3];
+
+extern int16andUint8_t rawAccel[3];
+
+///////////////////////////////////////
 
 extern float gyroRTBias[3];
 
@@ -47,34 +75,38 @@ extern int32_t gyroSum200Hz[3];
 
 extern int32_t gyroSummedSamples200Hz[3];
 
-extern float gyroTemperature;
-
 extern int16andUint8_t rawGyro[3];
 
-extern int16andUint8_t rawGyroTemperature;
+///////////////////////////////////////
+
+extern uint8_t mpu6050Calibrating;
+
+extern float   mpu6050Temperature;
+
+extern int16andUint8_t rawMPU6050Temperature;
 
 ///////////////////////////////////////////////////////////////////////////////
-// Read Gyro
+// MPU6050 Initialization
 ///////////////////////////////////////////////////////////////////////////////
 
-void readGyro(void);
+void initMPU6050(void);
 
 ///////////////////////////////////////////////////////////////////////////////
-// Compute Gyro Temperature Compensation Bias
+// Read MPU6050
 ///////////////////////////////////////////////////////////////////////////////
 
-void computeGyroTCBias(void);
+void readMPU6050(void);
 
 ///////////////////////////////////////////////////////////////////////////////
-// Compute Gyro Runtime Bias
+// Compute MPU6050 Runtime Data
 ///////////////////////////////////////////////////////////////////////////////
 
-void computeGyroRTBias(void);
+void computeMPU6050RTData(void);
 
 ///////////////////////////////////////////////////////////////////////////////
-// Gyro Initialization
+// Compute MPU6050 Temperature Compensation Bias
 ///////////////////////////////////////////////////////////////////////////////
 
-void initGyro(void);
+void computeMPU6050TCBias(void);
 
 ///////////////////////////////////////////////////////////////////////////////

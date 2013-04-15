@@ -1,11 +1,9 @@
 /*
-  October 2012
+  June 2012
 
-  aq32Plus Rev -
+  BaseFlightPlus Rev -
 
-  Copyright (c) 2012 John Ihlein.  All rights reserved.
-
-  Open Source STM32 Based Multicopter Controller Software
+  An Open Source STM32 Based Multicopter
 
   Includes code and/or ideas from:
 
@@ -14,9 +12,8 @@
   3)CH Robotics
   4)MultiWii
   5)S.O.H. Madgwick
-  6)UAVX
 
-  Designed to run on the AQ32 Flight Control Board
+  Designed to run on Naze32 Flight Control Board
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by

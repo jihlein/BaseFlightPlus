@@ -29,6 +29,8 @@
   along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+///////////////////////////////////////////////////////////////////////////////
+
 #include "board.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -98,7 +100,7 @@ caddr_t _sbrk(int incr)
 
 // Substantially rewritten for UAVXArm by Prof. G.K. Egan (C) 2012.
 
-// Incorporated into aq32Plus by J. Ihlein (C) 2012.
+// Incorporated into BaseFlightPlus by J. Ihlein (C) 2012.
 
 uint16_t sphereFit(float    d[][3],
                    uint16_t N,

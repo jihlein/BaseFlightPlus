@@ -29,21 +29,19 @@
   along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+///////////////////////////////////////////////////////////////////////////////
+
 #pragma once
 
 ///////////////////////////////////////////////////////////////////////////////
-// BMP085 Variables
-///////////////////////////////////////////////////////////////////////////////
 
-extern float pressureAlt;
+extern uint32_t d1Average;
 
-extern int32_t pressureAverage;
+extern uint32_t d1Sum;
 
-extern int32_t pressureSum;
+extern uint32andUint8_t d1;
 
-extern int32andUint8_t uncompensatedPressure;
-
-extern int32andUint8_t uncompensatedTemperature;
+extern uint8_t pressureAltValid;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Read Temperature Request Pressure

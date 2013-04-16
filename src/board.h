@@ -64,12 +64,10 @@
 #include "drv_rx.h"
 #include "drv_system.h"
 
-#include "adxl345.h"
-#include "bmp085.h"
 #include "hmc5883.h"
-#include "mpu3050.h"
+#include "mpu6050.h"
+#include "ms5611_I2C.h"
 
-#include "accelCalibration.h"
 #include "cli.h"
 #include "cliSupport.h"
 #include "computeAxisCommands.h"
@@ -77,11 +75,11 @@
 #include "coordinateTransforms.h"
 #include "escCalibration.h"
 #include "flightCommand.h"
-#include "gyroTempCalibration.h"
 #include "lowPassFilter.h"
 #include "magCalibration.h"
 #include "MargAHRS.h"
 #include "mixer.h"
+#include "mpu6050Calibration.h"
 #include "utilities.h"
 #include "vertCompFilter.h"
 

@@ -116,15 +116,15 @@ void checkFirstTime(bool eepromReset)
 
 	    ///////////////////////////////
 
-        eepromConfig.accelBias[XAXIS] = 0.0f;
-        eepromConfig.accelBias[YAXIS] = 0.0f;
-        eepromConfig.accelBias[ZAXIS] = 0.0f;
+        eepromConfig.accelTCBiasSlope[XAXIS] = 0.0f;
+        eepromConfig.accelTCBiasSlope[YAXIS] = 0.0f;
+        eepromConfig.accelTCBiasSlope[ZAXIS] = 0.0f;
 
         ///////////////////////////////
 
-        eepromConfig.accelScaleFactor[XAXIS] = 9.8065f / 256.0f;
-        eepromConfig.accelScaleFactor[YAXIS] = 9.8065f / 256.0f;
-        eepromConfig.accelScaleFactor[ZAXIS] = 9.8065f / 256.0f;
+        eepromConfig.accelTCBiasIntercept[XAXIS] = 0.0f;
+        eepromConfig.accelTCBiasIntercept[YAXIS] = 0.0f;
+        eepromConfig.accelTCBiasIntercept[ZAXIS] = 0.0f;
 
         ///////////////////////////////
 
@@ -154,6 +154,10 @@ void checkFirstTime(bool eepromReset)
 	    eepromConfig.KiAcc = 0.0f;  // integral gain governs rate of convergence of gyroscope biases
 	    eepromConfig.KpMag = 5.0f;  // proportional gain governs rate of convergence to magnetometer
 	    eepromConfig.KiMag = 0.0f;  // integral gain governs rate of convergence of gyroscope biases
+
+	    ///////////////////////////////
+
+	    eepromConfig.dlpfSetting = BITS_DLPF_CFG_98HZ;
 
 	    ///////////////////////////////
 

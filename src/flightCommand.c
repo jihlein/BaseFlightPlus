@@ -146,8 +146,7 @@ void processFlightCommands(void)
 		     (rxCommand[ROLL ] > (eepromConfig.maxCheck - MIDCOMMAND)) &&
 		     (rxCommand[PITCH] < (eepromConfig.minCheck - MIDCOMMAND)) )
 		{
-			computeAccelRTData();
-			computeGyroRTBias();
+			computeMPU6050RTData();
 			pulseMotors(3);
 		}
 

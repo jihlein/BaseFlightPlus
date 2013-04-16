@@ -80,6 +80,11 @@ typedef union {
     uint8_t bytes[2];
 } uint16andUint8_t;
 
+typedef union {
+	uint32_t value;
+	 uint8_t bytes[4];
+} uint32andUint8_t;
+
 ///////////////////////////////////////////////////////////////////////////////
 // Sensor Variables
 ///////////////////////////////////////////////////////////////////////////////
@@ -167,14 +172,20 @@ enum { DISENGAGED, ENGAGED, PANIC };
 enum { NA_RECEIVER, PARALLEL_PWM, SERIAL_PWM, SPEKTRUM };
 
 ///////////////////////////////////////////////////////////////////////////////
+// MPU6050 DLPF Configurations
+///////////////////////////////////////////////////////////////////////////////
+
+enum { DLPF_256HZ, DLPF_188HZ, DLPF_98HZ, DLPF_42HZ };
+
+///////////////////////////////////////////////////////////////////////////////
 // EEPROM
 ///////////////////////////////////////////////////////////////////////////////
 
 typedef struct eepromConfig_t {
     uint8_t version;
 
-    float accelBias[3];
-    float accelScaleFactor[3];
+    float accelTCBiasSlope[3];
+    float accelTCBiasIntercept[3];
 
     float gyroTCBiasSlope[3];
     float gyroTCBiasIntercept[3];
@@ -194,6 +205,8 @@ typedef struct eepromConfig_t {
     float compFilterA;
 
     float compFilterB;
+
+    uint8_t dlpfSetting;
 
     ///////////////////////////////////
 

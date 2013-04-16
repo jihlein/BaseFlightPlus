@@ -291,7 +291,7 @@ void cliCom(void)
         	cliPrintF("%9.4f, %9.4f, %9.4f, %9.4f\n", sensors.gyro200Hz[ROLL ] * R2D,
         			                                  sensors.gyro200Hz[PITCH] * R2D,
         					                          sensors.gyro200Hz[YAW  ] * R2D,
-        					                          gyroTemperature);
+        					                          mpu6050Temperature);
         	validCliCommand = false;
         	break;
 

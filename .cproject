@@ -78,15 +78,15 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="baseFlightPlusSVN.org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.1207034265" name="ARM Cross Target Application" projectType="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf"/>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		<scannerConfigBuildInfo instanceId="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.release.198873184;org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.release.198873184.;org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.assembler.release.1933555181;org.eclipse.cdt.cross.arm.gnu.sourcery.windows.assembler.base.input.512035173">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.cross.arm.gnu.ARM_CS_GCCWinManagedMakePerProjectProfileC"/>
+			<autodiscovery enabled="false" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.cross.arm.gnu.ARM_CS_GCCWinManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.release.198873184;org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.release.198873184.;org.eclipse.cdt.cross.arm.gnu.sourcery.windows.elf.c.compiler.release.376081127;org.eclipse.cdt.cross.arm.gnu.sourcery.windows.c.compiler.base.input.1670112250">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.cross.arm.gnu.ARM_CS_GCCWinManagedMakePerProjectProfileC"/>
+			<autodiscovery enabled="false" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.cross.arm.gnu.ARM_CS_GCCWinManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="refreshScope"/>
 </cproject>

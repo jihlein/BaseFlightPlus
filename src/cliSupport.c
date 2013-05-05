@@ -687,6 +687,16 @@ void sensorCLI()
                 validQuery = true;
                 break;
 
+            ///////////////////////////
+
+            case 'd': // GyroTemp Calibration
+                gyroTempCalibration();
+                computeGyroRTBias();
+
+                sensorQuery = 'a';
+                validQuery = true;
+                break;
+
 			///////////////////////////
 
 			case 'x':
@@ -748,7 +758,7 @@ void sensorCLI()
 			   	cliPrint("'a' Display Sensor Data\n");
 			   	cliPrint("'b' Accel Calibration                      'B' Set Accel Cutoff                     BAccelCutoff\n");
 			   	cliPrint("'c' Magnetometer Calibration               'C' Set kpAcc/kiAcc                      CKpAcc;KiAcc\n");
-			   	cliPrint("                                           'D' Set kpMag/kiMag                      DKpMag;KiMag\n");
+			   	cliPrint("'d' Gyro Temp Calibration                  'D' Set kpMag/kiMag                      DKpMag;KiMag\n");
 			   	cliPrint("                                           'E' Set h dot est/h est Comp Filter A/B  EA;B\n");
 			   	cliPrint("                                           'W' Write EEPROM Parameters\n");
 			   	cliPrint("'x' Exit Sensor CLI                        '?' Command Summary\n");

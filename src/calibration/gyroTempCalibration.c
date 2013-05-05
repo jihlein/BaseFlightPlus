@@ -70,7 +70,7 @@ void gyroTempCalibration(void)
     gyroBias1[YAW]   /= (float) numberOfGyroSamples;
     gyroTemperature1 /= (float) numberOfGyroSamples;
 
-    cliPrintF("\nGyro Temperature Reading: %6.2F", gyroTemperature1);
+    cliPrintF("\nGyro Temperature Reading: %6.2f", gyroTemperature1);
 
     cliPrint("\n\nEnd 1st Gyro Measurements\n");
 
@@ -100,7 +100,7 @@ void gyroTempCalibration(void)
     gyroBias2[YAW  ] /= (float) numberOfGyroSamples;
     gyroTemperature2 /= (float) numberOfGyroSamples;
 
-    cliPrintF("\nGyro Temperature Reading: %6.2F", gyroTemperature2);
+    cliPrintF("\nGyro Temperature Reading: %6.2f", gyroTemperature2);
 
     cliPrint("\n\nEnd 2nd Gyro Measurements\n");
 
